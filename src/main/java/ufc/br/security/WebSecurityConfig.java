@@ -32,7 +32,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.GenericFilterBean;
 import ufc.br.model.Usuario;
-import ufc.br.repository.ResponsibleRepository;
 import ufc.br.repository.UsuarioRepository;
 
 import javax.servlet.FilterChain;
@@ -76,7 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String result = encoder.encode("admini9move");
+        String result = encoder.encode("");
         System.err.println(result);
         // Create a default account
         auth.inMemoryAuthentication()
@@ -155,7 +154,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             }catch (Exception e){
 
             }
-            System.err.println(creds.getUsername()+" logou");
+            System.err.println(creds.getUsername()+" logou ");
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getUsername(),

@@ -4,10 +4,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@PrimaryKeyJoinColumn(name="id")
 public class Patient extends Usuario{
-	@Id
-	@GeneratedValue
-	private Integer id;
+	
 	@NotNull
 	private String registration;
 	@NotNull
@@ -35,14 +34,6 @@ public class Patient extends Usuario{
 		this.phoneParent = phoneParent;
 		this.progress = 1;
 
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getName() {

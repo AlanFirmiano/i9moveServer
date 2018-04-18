@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -27,9 +30,14 @@ public class PatientService {
 	}
 	
 	public ResponseEntity<String> save(Patient patient){
+		
 		if(null == repository.findByName(patient.getName())){
 			patient.setRegistration(gerarMatricula());
-			patient.setResponsible(responsible.findById(1));
+			patient.setEmail(patient.getRegistration());
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			patient.setPassword(encoder.encode(patient.getRegistration()));
+			Responsible res = this.responsible.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+			patient.setResponsible(res);
 			repository.save(patient);
 			return new ResponseEntity<String>("Paciente : "+ patient.getName()+" cadastrado!", HttpStatus.OK);
 		}else{

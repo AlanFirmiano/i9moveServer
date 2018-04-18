@@ -18,7 +18,7 @@ import ufc.br.model.Responsible;
 import ufc.br.service.ResponsibleService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/responsible")
 @CrossOrigin(origins = "*")
 public class ResponsibleController {
 

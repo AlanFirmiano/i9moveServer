@@ -22,18 +22,18 @@ public class PermitionService {
     		repository.save(permition);
         	return new ResponseEntity<String>(permition.getGrasp().getExercise().getTitle()+" permitido!", HttpStatus.OK);
     	}else {
-    		return new ResponseEntity<String>(permition.getGrasp().getExercise().getTitle()+" já está permitida", HttpStatus.OK);
+    		return new ResponseEntity<String>(permition.getGrasp().getExercise().getTitle()+" já está permitido", HttpStatus.OK);
     	}
     }
 
     public ResponseEntity<String> delete(Integer id){
         repository.deleteById(id);
-        return new ResponseEntity<String>("removido", HttpStatus.OK);
+        return new ResponseEntity<String>("Removido", HttpStatus.OK);
     }
 
     public ResponseEntity<String> update(Permition permition){
         repository.save(permition);
-        return new ResponseEntity<String>("autualizado", HttpStatus.OK);
+        return new ResponseEntity<String>(permition.getGrasp().getExercise().getTitle()+" foi atualizado!", HttpStatus.OK);
     }
     
     public ResponseEntity<Permition> get(int id){

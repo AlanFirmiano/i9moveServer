@@ -31,8 +31,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.GenericFilterBean;
+
+import ufc.br.model.Papel;
 import ufc.br.model.Usuario;
 import ufc.br.repository.UsuarioRepository;
+import ufc.br.service.UsuarioService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -42,6 +45,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
@@ -50,19 +54,69 @@ import java.util.Date;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UsuarioDetailsService usuarioDetailsService;
-
+    
     @Bean
     public PasswordEncoder passwordEncoder(){
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
     }
-
+    /*.antMatchers(HttpMethod.POST,"/responsible").hasRole("ADMINISTRADOR")
+    .antMatchers(HttpMethod.PUT,"/responsible").hasRole("ADMINISTRADOR")
+    .antMatchers(HttpMethod.DELETE,"/responsible").hasRole("ADMINISTRADOR")
+    
+    .antMatchers(HttpMethod.POST,
+    		"/patients","/grasp",
+    		"/exercises","/level",
+    		"/permitions","/recommendation",
+    		"/series"
+    		).hasAnyRole("ADMINISTRADOR","FISIOTERAPEUTA")
+    .antMatchers(HttpMethod.PUT,
+    		"/patients","/grasp",
+    		"/exercises","/level",
+    		"/permitions","/recommendation",
+    		"/series"
+    		).hasAnyRole("ADMINISTRADOR","FISIOTERAPEUTA")
+    .antMatchers(HttpMethod.DELETE,
+    		"/patients","/grasp",
+    		"/exercises","/level",
+    		"/permitions","/recommendation",
+    		"/series"
+    		).hasAnyRole("ADMINISTRADOR","FISIOTERAPEUTA")
+    */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
+        /*
+        .antMatchers(HttpMethod.POST,"/responsible").hasRole(Papel.ADMINISTRADOR.getAuthority())
+        .antMatchers(HttpMethod.PUT,"/responsible").hasRole(Papel.ADMINISTRADOR.getAuthority())
+        .antMatchers(HttpMethod.DELETE,"/responsible").hasRole(Papel.ADMINISTRADOR.getAuthority())
+        .antMatchers(HttpMethod.POST,
+        		"/patients","/grasp",
+        		"/exercises","/levels",
+        		"/permitions","/recommendation",
+        		"/series"
+        		).hasRole(Papel.FISIOTERAPEUTA.getAuthority())
+        
+        .antMatchers(HttpMethod.PUT,
+        		"/patients","/grasp",
+        		"/exercises","/level",
+        		"/permitions","/recommendation",
+        		"/series"
+        		).hasAnyRole(Papel.ADMINISTRADOR.getAuthority(),Papel.FISIOTERAPEUTA.getAuthority())
+        .antMatchers(HttpMethod.DELETE,
+        		"/patients","/grasp",
+        		"/exercises","/level",
+        		"/permitions","/recommendation",
+        		"/series"
+        		).hasAnyRole(Papel.ADMINISTRADOR.getAuthority(),Papel.FISIOTERAPEUTA.getAuthority())
+        */
+        
+        
+        		.antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers("/video/**").permitAll()
+                
                 .anyRequest().authenticated()
+                
                 .and()
                 // We filter the api/login requests
                 .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
@@ -75,7 +129,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String result = encoder.encode("");
+        String result = encoder.encode("admini9move");
         System.err.println(result);
         // Create a default account
         auth.inMemoryAuthentication()
@@ -111,9 +165,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .compact();
             res.getOutputStream().write((TOKEN_PREFIX + JWT).getBytes());
         }
-
-        public static UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            String token = request.getHeader(HEADER_STRING);
+        
+        public static UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, 
+        		HttpServletResponse response) throws IOException {
+            
+        	String token = request.getHeader(HEADER_STRING);
             if (token != null) {
                 // parse the token.
                 String user = null;
@@ -125,10 +181,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             .getSubject();
                 }catch (Exception e) {
                 }
-
-                return user != null ?
-                        new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList()) :
-                        null;
+                /*
+                Usuario aux = service.getByEmail(user);
+                if(aux!=null) {
+                	System.err.println("Usuario : "+aux.getEmail()+"\n"+aux.getAuthorities());
+                }else {
+                	System.err.println("vazio");
+                }
+                */
+                if(user!= null)
+                	return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList() /*aux.getAuthorities()*/);
+                return null;
             }
             return null;
         }
@@ -179,7 +242,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Component
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public class JWTAuthenticationFilter extends GenericFilterBean {
-
+    
         @Override
         public void doFilter(ServletRequest request,
                              ServletResponse response,

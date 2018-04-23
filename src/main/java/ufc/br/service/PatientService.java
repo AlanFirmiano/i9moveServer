@@ -11,14 +11,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
+import ufc.br.model.Papel;
 import ufc.br.model.Patient;
 import ufc.br.model.Responsible;
 import ufc.br.repository.PatientRepository;
 import ufc.br.repository.ResponsibleRepository;
+import ufc.br.repository.UsuarioRepository;
 
 @Service
 public class PatientService {
+	@Autowired
+	UsuarioRepository usuario;
 	@Autowired
 	PatientRepository repository;
 	@Autowired
@@ -36,8 +39,11 @@ public class PatientService {
 			patient.setEmail(patient.getRegistration());
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			patient.setPassword(encoder.encode(patient.getRegistration()));
+			
 			Responsible res = this.responsible.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+			System.err.println(SecurityContextHolder.getContext().getAuthentication().getName());
 			patient.setResponsible(res);
+			//patient.addPapel(new Papel("PAC"));
 			repository.save(patient);
 			return new ResponseEntity<String>("Paciente : "+ patient.getName()+" cadastrado!", HttpStatus.OK);
 		}else{

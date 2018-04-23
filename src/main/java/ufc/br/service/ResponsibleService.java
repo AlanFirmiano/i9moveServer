@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import ufc.br.model.Papel;
 import ufc.br.model.Responsible;
 import ufc.br.repository.ResponsibleRepository;
 
@@ -20,17 +21,19 @@ public class ResponsibleService {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		responsible.setPassword(encoder.encode(responsible.getPassword()));
 		repository.save(responsible);
-		return new ResponseEntity<String>("sucesso", HttpStatus.OK);		
+		return new ResponseEntity<String>("Fisioterapeuta cadastrado com sucesso!", HttpStatus.OK);		
 	}
 
 	public ResponseEntity<String> delete(int id){
 		repository.deleteById(id);
-		return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+		return new ResponseEntity<String>("Fisioterapeuta removido!", HttpStatus.OK);
 	}
 
 	public ResponseEntity<String> update(Responsible responsible){
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		responsible.setPassword(encoder.encode(responsible.getPassword()));
 		repository.save(responsible);
-		return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+		return new ResponseEntity<String>("Fisioterapeuta atualizado!", HttpStatus.OK);
 	}
 
 	public ResponseEntity<Responsible> get(int id){

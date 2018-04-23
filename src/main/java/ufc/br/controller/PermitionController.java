@@ -53,6 +53,7 @@ public class PermitionController {
         Patient aux = pservice.get(id).getBody();
     	return service.getUnlocked(true, aux);
     }
+
     @GetMapping("/locked/{id}")
     public ResponseEntity<List<Permition>> getLocked(@PathVariable Integer id){
         Patient aux = pservice.get(id).getBody();

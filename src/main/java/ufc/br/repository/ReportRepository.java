@@ -18,4 +18,6 @@ public interface ReportRepository extends JpaRepository<Report, Integer>{
 	List<Report> findByPermition_Patient(Patient patient);
 
 	List<Report> findByPermition_Grasp_Exercise(Exercise exercise);
+	
+	
 }

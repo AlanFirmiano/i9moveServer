@@ -17,8 +17,17 @@ public class PermitionService {
     @Autowired
     PermitionRepository repository;
     
+    @Autowired
+    PatientRepository patientRepository;
+    
     public ResponseEntity<String> save(Permition permition){
     	if(repository.findByPatientAndGrasp(permition.getPatient(), permition.getGrasp())==null) {
+    		if(permition.getPatient().getLevel()<permition.getGrasp().getLevel().getLevel()) {
+    			Patient patient = patientRepository.findById(permition.getPatient().getId()).get();
+    			patient.setLevel(permition.getGrasp().getLevel().getLevel());
+    			patientRepository.save(patient);
+    			System.err.println("atualizou level");
+    		}
     		repository.save(permition);
         	return new ResponseEntity<String>(permition.getGrasp().getExercise().getTitle()+" permitido!", HttpStatus.OK);
     	}else {

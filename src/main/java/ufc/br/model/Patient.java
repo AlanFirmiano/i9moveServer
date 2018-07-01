@@ -19,6 +19,8 @@ public class Patient extends Usuario{
 	private String phoneParent;
 	@NotNull
 	private int progress;
+	
+	private int level;
 	@ManyToOne(cascade={CascadeType.MERGE})
 	private Responsible responsible;
 
@@ -32,7 +34,8 @@ public class Patient extends Usuario{
 		this.phone = phone;
 		this.parent = parent;
 		this.phoneParent = phoneParent;
-		this.progress = 1;
+		this.progress = 0;
+		this.level = 1;
 
 	}
 
@@ -46,6 +49,14 @@ public class Patient extends Usuario{
 	
 	public String getRegistration() {
 		return registration;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public void setRegistration(String registration) {

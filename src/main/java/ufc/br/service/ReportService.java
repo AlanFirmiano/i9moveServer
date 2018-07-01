@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 
 import ufc.br.model.Exercise;
 import ufc.br.model.Patient;
+import ufc.br.model.Permition;
 import ufc.br.model.Report;
 import ufc.br.repository.ExerciseRepository;
 import ufc.br.repository.ReportRepository;
 import ufc.br.repository.PatientRepository;
+import ufc.br.repository.PermitionRepository;
 
 @Service
 public class ReportService {
@@ -23,9 +25,17 @@ public class ReportService {
 	PatientRepository prep;
 	@Autowired
 	ExerciseRepository exeRepo;
+	@Autowired
+	PermitionRepository permitionRepository;
 	public ResponseEntity<String> save(Report report){
 		Patient aux = prep.findById(report.getPermition().getPatient().getId()).get();
 		aux.setProgress(aux.getProgress()+1);
+		//BUSCAR COUNT POR GRASP_NIVEL E STATUS -> if == 0 -> ADICIONAR PROX NIVEL
+		List<Permition> permitions = permitionRepository.findByGraspLevelLevelAndLocked(aux.getLevel(), true);
+		//SE CONCLUIU TODAS AS ATIVIDADES
+		if(permitions.size() == 0) {
+			
+		}
 		prep.save(aux);
 		repository.save(report);
 		return new ResponseEntity<String>("sucesso", HttpStatus.OK);		

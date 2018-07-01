@@ -43,7 +43,7 @@ public class PatientService {
 			Responsible res = this.responsible.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 			System.err.println(SecurityContextHolder.getContext().getAuthentication().getName());
 			patient.setResponsible(res);
-			//patient.addPapel(new Papel("PAC"));
+			
 			repository.save(patient);
 			return new ResponseEntity<String>("Paciente : "+ patient.getName()+" cadastrado!", HttpStatus.OK);
 		}else{

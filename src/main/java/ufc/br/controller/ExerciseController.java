@@ -31,7 +31,6 @@ import ufc.br.model.Midia;
 import ufc.br.service.ExerciseService;
 import ufc.br.service.MidiaService;
 
-
 @RestController
 @RequestMapping("/exercises")
 @CrossOrigin(origins = "*")
@@ -41,69 +40,78 @@ public class ExerciseController {
 	private ExerciseService service;
 	@Autowired
 	private MidiaService mService;
+
 	@PostMapping
-	public ResponseEntity<String> save(@RequestBody Exercise exercise){
+	public ResponseEntity<String> save(@RequestBody Exercise exercise) {
 		return service.save(exercise);
 	}
-	
-	@PostMapping(value="/{id}/upload", headers = "content-type=multipart/form-data")
-	public ResponseEntity<Object> uploadFile(@PathVariable Integer id, @RequestParam("file") MultipartFile file) throws IOException{
-		
-		File convertFile = new File(this.getClass().getClassLoader().getResource("public/video/").getPath()+file.getOriginalFilename());
+
+	@PostMapping(value = "/{id}/upload", headers = "content-type=multipart/form-data")
+	public ResponseEntity<Object> uploadFile(@PathVariable Integer id, @RequestParam("file") MultipartFile file)
+			throws IOException {
+		try {
+			File convertFile = new File(this.getClass().getClassLoader().getResource("public/video/").getPath()
+					+ file.getOriginalFilename());
+			convertFile.createNewFile();
+			FileOutputStream fout = new FileOutputStream(convertFile);
+			fout.write(file.getBytes());
+			fout.close();
+
+			Exercise aux = service.get(id).getBody();
+			Midia midia = new Midia();
+			midia.setPathVideo("http://localhost:8080/video/" + file.getOriginalFilename());
+			midia.setPathTitle(convertFile.getName());
+			if (aux.getMidia() != null) {
+				aux.getMidia().setPathVideo(midia.getPathVideo());
+				aux.getMidia().setPathTitle(midia.getPathTitle());
+				mService.update(aux.getMidia());
+				System.err.println("Midia atualizada!");
+			} else {
+				aux.setMidia(midia);
+				System.err.println("Midia " + aux.getMidia().getPathTitle() + " criada!");
+			}
+			service.update(aux);
+			return new ResponseEntity<>("Video enviado com sucesso", HttpStatus.OK);
+		} catch (IOException e) {
+			return new ResponseEntity<>("Erro", HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+
+	@PostMapping(value = "/upload", headers = "content-type=multipart/form-data")
+	public ResponseEntity<Object> uploadFile(@RequestHeader(value = "Content-Type") String userAgent,
+			@RequestParam("file") MultipartFile file) throws IOException {
+		System.err.println(userAgent);
+		File convertFile = new File(
+				this.getClass().getClassLoader().getResource("public/video/").getPath() + file.getOriginalFilename());
 		convertFile.createNewFile();
 		FileOutputStream fout = new FileOutputStream(convertFile);
 		fout.write(file.getBytes());
 		fout.close();
-		
-		Exercise aux = service.get(id).getBody();
-		Midia midia = new Midia();
-		midia.setPathVideo("http://localhost:8080/video/"+file.getOriginalFilename());
-		midia.setPathTitle(convertFile.getName());
-		if(aux.getMidia()!=null) {
-			aux.getMidia().setPathVideo(midia.getPathVideo());
-			aux.getMidia().setPathTitle(midia.getPathTitle());
-			mService.update(aux.getMidia());
-			System.err.println("Midia atualizada!");
-		}else {
-			aux.setMidia(midia);
-			System.err.println("Midia "+ aux.getMidia().getPathTitle()+" criada!");
-		}
-		service.update(aux);
 		return new ResponseEntity<>("Video enviado com sucesso", HttpStatus.OK);
 	}
 
-	@PostMapping(value="/upload", headers = "content-type=multipart/form-data")
-	public ResponseEntity<Object> uploadFile(@RequestHeader(value="Content-Type") String userAgent,@RequestParam("file") MultipartFile file) throws IOException{
-		System.err.println(userAgent);
-		File convertFile = new File(this.getClass().getClassLoader().getResource("public/video/").getPath()+file.getOriginalFilename());
-		convertFile.createNewFile();
-		FileOutputStream fout = new FileOutputStream(convertFile);
-		fout.write(file.getBytes());
-		fout.close();
-		return new ResponseEntity<>("Video enviado com sucesso", HttpStatus.OK);
-	}
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id){
+	public ResponseEntity<String> delete(@PathVariable Integer id) {
 		return service.delete(id);
 	}
 
 	@PutMapping
-	public ResponseEntity<String> update(@RequestBody Exercise exercise){
+	public ResponseEntity<String> update(@RequestBody Exercise exercise) {
 		return service.update(exercise);
 	}
 
 	@GetMapping("by/{id}")
-	public ResponseEntity<Exercise> get(@PathVariable Integer id){
+	public ResponseEntity<Exercise> get(@PathVariable Integer id) {
 		return service.get(id);
 	}
 
 	@GetMapping("/{title}")
-	public ResponseEntity<Exercise> get(@PathVariable String title){
+	public ResponseEntity<Exercise> get(@PathVariable String title) {
 		return service.get(title);
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Exercise>> get(){
+	public ResponseEntity<List<Exercise>> get() {
 		return service.get();
 	}
 }

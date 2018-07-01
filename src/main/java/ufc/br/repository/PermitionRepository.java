@@ -13,8 +13,12 @@ import java.util.List;
 public interface PermitionRepository extends JpaRepository<Permition, Integer>{
 	
     List<Permition> findByPatient(Patient patient);
+    
     Permition findByPatientAndGrasp(Patient patient, Grasp grasp);
+    
     List<Permition> findByLockedAndPatient(boolean locked,Patient patient);
     
     Permition findById(int id);
+    
+    List<Permition> findByGraspLevelLevelAndLocked(int level, boolean locked);
 }

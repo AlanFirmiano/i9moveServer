@@ -14,30 +14,28 @@ import java.util.List;
 public class ObjectController {
 
     @Autowired
-    private ObjectService service;
+    private ObjectService objectService;
 
     @PostMapping
     public ResponseEntity<String> save(@RequestBody Object object){
-        return service.save(object);
+        return ResponseEntity.ok(objectService.save(object));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id){
-        return service.delete(id);
+        return ResponseEntity.ok(objectService.delete(id));
     }
 
     @PutMapping
-    public ResponseEntity<String> update(@RequestBody Object object){
-        return service.update(object);
-    }
+    public ResponseEntity<String> update(@RequestBody Object object){ return ResponseEntity.ok(objectService.update(object)); }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> get(@PathVariable Integer id){
-        return service.get(id);
+        return ResponseEntity.ok(objectService.get(id));
     }
 
     @GetMapping
     public ResponseEntity<List<Object>> get(){
-        return service.get();
+        return ResponseEntity.ok(objectService.get());
     }
 }

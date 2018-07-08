@@ -14,31 +14,29 @@ import java.util.List;
 public class LevelController {
 
     @Autowired
-    private LevelService service;
+    private LevelService levelService;
 
     @PostMapping
-    public ResponseEntity<String> save(@RequestBody Level level){
-        return service.save(level);
-    }
+    public ResponseEntity<String> save(@RequestBody Level level){ return ResponseEntity.ok(levelService.save(level)); }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id){
-        return service.delete(id);
+        return ResponseEntity.ok(levelService.delete(id));
     }
 
     @PutMapping
     public ResponseEntity<String> update(@RequestBody Level level){
-        return service.update(level);
+        return ResponseEntity.ok(levelService.update(level));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Level> get(@PathVariable Integer id){
-        return service.get(id);
+        return ResponseEntity.ok(levelService.get(id));
     }
 
     @GetMapping
     public ResponseEntity<List<Level>> get(){
-        return service.get();
+        return ResponseEntity.ok(levelService.get());
     }
 
 }

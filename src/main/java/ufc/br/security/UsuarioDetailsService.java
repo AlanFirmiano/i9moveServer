@@ -5,12 +5,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import ufc.br.repository.UsuarioRepository;
+import ufc.br.repository.UserRepository;
 
 @Component
 public class UsuarioDetailsService implements UserDetailsService {
+
     @Autowired
-    private UsuarioRepository repository;
+    private UserRepository repository;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return this.repository.findByEmail(email);

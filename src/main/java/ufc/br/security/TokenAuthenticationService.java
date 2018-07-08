@@ -43,9 +43,9 @@ class TokenAuthenticationService {
             }catch (Exception e) {
             }
                 /*
-                Usuario aux = service.getByEmail(user);
+                User aux = service.getByEmail(user);
                 if(aux!=null) {
-                	System.err.println("Usuario : "+aux.getEmail()+"\n"+aux.getAuthorities());
+                	System.err.println("User : "+aux.getEmail()+"\n"+aux.getAuthorities());
                 }else {
                 	System.err.println("vazio");
                 }

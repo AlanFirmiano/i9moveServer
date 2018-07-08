@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ufc.br.model.Exercise;
@@ -19,60 +17,64 @@ import ufc.br.repository.PermitionRepository;
 
 @Service
 public class ReportService {
+
 	@Autowired
-    ReportRepository repository;
+    ReportRepository reportRepository;
 	@Autowired
-	PatientRepository prep;
+	PatientRepository patientRepository;
 	@Autowired
-	ExerciseRepository exeRepo;
+	ExerciseRepository exerciseRepository;
 	@Autowired
 	PermitionRepository permitionRepository;
-	public ResponseEntity<String> save(Report report){
-		Patient aux = prep.findById(report.getPermition().getPatient().getId()).get();
+
+	public String save(Report report){
+		Patient aux = patientRepository.findById(report.getPermition().getPatient().getId()).get();
 		aux.setProgress(aux.getProgress()+1);
 		//BUSCAR COUNT POR GRASP_NIVEL E STATUS -> if == 0 -> ADICIONAR PROX NIVEL
 		List<Permition> permitions = permitionRepository.findByGraspLevelLevelAndLocked(aux.getLevel(), true);
 		//SE CONCLUIU TODAS AS ATIVIDADES
 		if(permitions.size() == 0) {
-			
+			if(aux.getLevel() < 3){ //CASO NÃO ESTEJA NO ULTIMO NIVEL
+				//ADICIONAR TODAS AS ATIVIDADES DO PROX NIVEL
+			}
 		}
-		prep.save(aux);
-		repository.save(report);
-		return new ResponseEntity<String>("sucesso", HttpStatus.OK);		
+		patientRepository.save(aux);
+		reportRepository.save(report);
+		return "sucesso";
 	}
 
-	public ResponseEntity<String> delete(int id){
-		repository.deleteById(id);
-		return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+	public String delete(int id){
+		reportRepository.deleteById(id);
+		return "sucesso";
 	}
 
-	public ResponseEntity<String> update(Report report){
-		repository.save(report);
-		return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+	public String update(Report report){
+		reportRepository.save(report);
+		return "sucesso";
 	}
 
-	public ResponseEntity<Report> get(int id){
-		return new ResponseEntity<Report>(this.repository.findById(id), HttpStatus.OK);
+	public Report get(int id){
+		return this.reportRepository.findById(id);
 	}
 
-	public ResponseEntity<List<Report>> getByPermition(int id){
-		Patient patient = this.prep.findById(id);
-		return new ResponseEntity<List<Report>>(this.repository.findByPermition_Patient(patient), HttpStatus.OK);
+	public List<Report> getByPermition(int id){
+		Patient patient = this.patientRepository.findById(id);
+		return this.reportRepository.findByPermition_Patient(patient);
 	}
 
-	public ResponseEntity<Double> getByExercise(int id){
-		Exercise exercise = this.exeRepo.findById(id);
+	public Double getByExercise(int id){
+		Exercise exercise = this.exerciseRepository.findById(id);
 		ArrayList<Report> report = new ArrayList<Report>();
 		double num = 0;
-		report = (ArrayList)this.repository.findByPermition_Grasp_Exercise(exercise);
+		report = (ArrayList)this.reportRepository.findByPermition_Grasp_Exercise(exercise);
 		for (Report r: report) {
 			num += r.getTime();
 		}
-		double media=num/report.size();
-		return new ResponseEntity<Double>(media, HttpStatus.OK);
+		double media = num/report.size();
+		return media;
 	}
 	
-	public ResponseEntity<List<Report>> get(){
-		return new ResponseEntity<List<Report>>(this.repository.findAll(), HttpStatus.OK);
+	public List<Report> get(){
+		return this.reportRepository.findAll();
 	}
 }

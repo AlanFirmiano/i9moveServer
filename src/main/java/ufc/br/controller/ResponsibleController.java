@@ -22,31 +22,30 @@ import ufc.br.service.ResponsibleService;
 public class ResponsibleController {
 
 	@Autowired
-	private ResponsibleService service;
+	private ResponsibleService responsibleService;
 
 	@PostMapping
 	public ResponseEntity<String> save(@RequestBody Responsible responsible){
-		return service.save(responsible);
+		return ResponseEntity.ok(responsibleService.save(responsible));
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete(@PathVariable Integer id){
-		return service.delete(id);
+		return ResponseEntity.ok(responsibleService.delete(id));
 	}
 
 	@PutMapping
 	public ResponseEntity<String> update(@RequestBody Responsible responsible){
-		return service.update(responsible);
+		return ResponseEntity.ok(responsibleService.update(responsible));
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Responsible> get(@PathVariable Integer id){
-		return service.get(id);
+		return ResponseEntity.ok(responsibleService.get(id));
 	}
 
 	@GetMapping
 	public ResponseEntity<List<Responsible>> get(){
-		return service.get();
+		return ResponseEntity.ok(responsibleService.get());
 	}
-
 }

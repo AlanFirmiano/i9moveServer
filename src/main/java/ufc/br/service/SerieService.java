@@ -1,8 +1,6 @@
 package ufc.br.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ufc.br.model.Serie;
 import ufc.br.repository.SerieRepository;
@@ -11,28 +9,29 @@ import java.util.List;
 
 @Service
 public class SerieService {
+
     @Autowired
-    SerieRepository repository;
+    SerieRepository serieRepository;
 
-    public ResponseEntity<String> save(Serie serie){
-        repository.save(serie);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String save(Serie serie){
+        serieRepository.save(serie);
+        return "sucesso";
     }
 
-    public ResponseEntity<String> delete(int id){
-        repository.deleteById(id);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String delete(int id){
+        serieRepository.deleteById(id);
+        return "sucesso";
     }
 
-    public ResponseEntity<String> update(Serie serie){
-        repository.save(serie);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String update(Serie serie){
+        serieRepository.save(serie);
+        return "sucesso";
     }
 
-    public ResponseEntity<Serie> get(int id){
-        return new ResponseEntity<Serie>(this.repository.findById(id), HttpStatus.OK);
+    public Serie get(int id){
+        return this.serieRepository.findById(id);
     }
-    public ResponseEntity<List<Serie>> get(){
-        return new ResponseEntity<List<Serie>>(this.repository.findAll(), HttpStatus.OK);
+    public List<Serie> get(){
+        return this.serieRepository.findAll();
     }
 }

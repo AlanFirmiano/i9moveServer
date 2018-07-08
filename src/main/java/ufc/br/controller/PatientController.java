@@ -23,30 +23,24 @@ import ufc.br.service.PatientService;
 public class PatientController {
 
 	@Autowired
-	private PatientService service;
+	private PatientService patientService;
 
 	@PostMapping
 	public ResponseEntity<String> save(@RequestBody Patient patient){
-		return service.save(patient);
+		return ResponseEntity.ok(patientService.save(patient));
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> delete(@PathVariable Integer id){
-		return service.delete(id);
-	}
+	public ResponseEntity<String> delete(@PathVariable Integer id){ return ResponseEntity.ok(patientService.delete(id)); }
 
 	@PutMapping
-	public ResponseEntity<String> update(@RequestBody Patient patient){
-		return service.update(patient);
-	}
+	public ResponseEntity<String> update(@RequestBody Patient patient){ return ResponseEntity.ok(patientService.update(patient)); }
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Patient> get(@PathVariable Integer id){
-		return service.get(id);
-	}
+	public ResponseEntity<Patient> get(@PathVariable Integer id){ return ResponseEntity.ok(patientService.get(id)); }
 
 	@GetMapping
 	public ResponseEntity<List<Patient>> get(){
-		return service.get();
+		return ResponseEntity.ok(patientService.get());
 	}
 }

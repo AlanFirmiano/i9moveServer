@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import ufc.br.model.Usuario;
+import ufc.br.model.User;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -29,10 +29,10 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
             throws AuthenticationException, IOException, ServletException {
 
         //Responsible creds = new Responsible();
-        Usuario creds = new Usuario();
+        User creds = new User();
         try {
             //creds = new ObjectMapper().readValue(req.getReader(), Responsible.class);
-            creds = new ObjectMapper().readValue(req.getReader(), Usuario.class);
+            creds = new ObjectMapper().readValue(req.getReader(), User.class);
         }catch (Exception e){
 
         }

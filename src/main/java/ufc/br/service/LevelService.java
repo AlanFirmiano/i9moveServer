@@ -1,8 +1,6 @@
 package ufc.br.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ufc.br.model.Level;
 import ufc.br.repository.LevelRepository;
@@ -11,29 +9,30 @@ import java.util.List;
 
 @Service
 public class LevelService {
+
     @Autowired
-    LevelRepository repository;
+    LevelRepository levelRepository;
 
-    public ResponseEntity<String> save(Level level){
-        repository.save(level);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String save(Level level){
+        levelRepository.save(level);
+        return "sucesso";
     }
 
-    public ResponseEntity<String> delete(Integer id){
-        repository.deleteById(id);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String delete(Integer id){
+        levelRepository.deleteById(id);
+        return "sucesso";
     }
 
-    public ResponseEntity<String> update(Level level){
-        repository.save(level);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String update(Level level){
+        levelRepository.save(level);
+        return "sucesso";
     }
 
-    public ResponseEntity<Level> get(int id){
-        return new ResponseEntity<Level>(this.repository.findById(id), HttpStatus.OK);
+    public Level get(int id){
+        return this.levelRepository.findById(id);
     }
 
-    public ResponseEntity<List<Level>> get(){
-        return new ResponseEntity<List<Level>>(this.repository.findAll(), HttpStatus.OK);
+    public List<Level> get(){
+        return this.levelRepository.findAll();
     }
 }

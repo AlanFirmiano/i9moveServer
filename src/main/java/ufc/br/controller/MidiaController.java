@@ -12,31 +12,32 @@ import java.util.List;
 @RequestMapping("/midias")
 @CrossOrigin(origins = "*")
 public class MidiaController {
+
     @Autowired
-    private MidiaService service;
+    private MidiaService midiaService;
 
     @PostMapping
     public ResponseEntity<String> save(@RequestBody Midia midia){
-        return service.save(midia);
+        return ResponseEntity.ok(midiaService.save(midia));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id){
-        return service.delete(id);
+        return ResponseEntity.ok(midiaService.delete(id));
     }
 
     @PutMapping
     public ResponseEntity<String> update(@RequestBody Midia midia){
-        return service.update(midia);
+        return ResponseEntity.ok(midiaService.update(midia));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Midia> get(@PathVariable Integer id){
-        return service.get(id);
+        return ResponseEntity.ok(midiaService.get(id));
     }
 
     @GetMapping
     public ResponseEntity<List<Midia>> get(){
-        return service.get();
+        return ResponseEntity.ok(midiaService.get());
     }
 }

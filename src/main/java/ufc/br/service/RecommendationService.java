@@ -1,8 +1,6 @@
 package ufc.br.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ufc.br.model.Recommendation;
 import ufc.br.repository.RecommendationRepository;
@@ -11,29 +9,30 @@ import java.util.List;
 
 @Service
 public class RecommendationService {
+
     @Autowired
-    RecommendationRepository repository;
+    RecommendationRepository recommendationRepository;
 
-    public ResponseEntity<String> save(Recommendation recommendation){
-        repository.save(recommendation);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String save(Recommendation recommendation){
+        recommendationRepository.save(recommendation);
+        return "sucesso";
     }
 
-    public ResponseEntity<String> delete(Integer id){
-        repository.deleteById(id);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String delete(Integer id){
+        recommendationRepository.deleteById(id);
+        return "sucesso";
     }
 
-    public ResponseEntity<String> update(Recommendation recommendation){
-        repository.save(recommendation);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String update(Recommendation recommendation){
+        recommendationRepository.save(recommendation);
+        return "sucesso";
     }
 
-    public ResponseEntity<Recommendation> get(int id){
-        return new ResponseEntity<Recommendation>(this.repository.findById(id), HttpStatus.OK);
+    public Recommendation get(int id){
+        return this.recommendationRepository.findById(id);
     }
 
-    public ResponseEntity<List<Recommendation>> get(){
-        return new ResponseEntity<List<Recommendation>>(this.repository.findAll(), HttpStatus.OK);
+    public List<Recommendation> get(){
+        return this.recommendationRepository.findAll();
     }
 }

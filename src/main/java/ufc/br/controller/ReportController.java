@@ -21,35 +21,37 @@ import ufc.br.service.ReportService;
 @RequestMapping("/report")
 @CrossOrigin(origins = "*")
 public class ReportController {
+
 	@Autowired
-	private ReportService service;
+	private ReportService reportService;
+
 	@PostMapping
 	public ResponseEntity<String> save(@RequestBody Report report){
-		return service.save(report);
+		return ResponseEntity.ok(reportService.save(report));
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete(@PathVariable Integer id){
-		return service.delete(id);
+		return ResponseEntity.ok(reportService.delete(id));
 	}
 
 	@PutMapping
 	public ResponseEntity<String> update(@RequestBody Report report){
-		return service.update(report);
+		return ResponseEntity.ok(reportService.update(report));
 	}
 
 	@GetMapping("byPatient/{id}")
 	public ResponseEntity<List<Report>> get(@PathVariable Integer id){
-		return service.getByPermition(id);
+		return ResponseEntity.ok(reportService.getByPermition(id));
 	}
 
 	@GetMapping("byExercise/{id}")
 	public ResponseEntity<Double> getByExercise(@PathVariable Integer id){
-		return service.getByExercise(id);
+		return ResponseEntity.ok(reportService.getByExercise(id));
 	}
 
 	@GetMapping
 	public ResponseEntity<List<Report>> get(){
-		return service.get();
+		return ResponseEntity.ok(reportService.get());
 	}
 }

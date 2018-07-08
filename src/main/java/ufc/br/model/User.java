@@ -26,7 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Usuario implements UserDetails{
+public class User implements UserDetails{
 	@Id
 	@GeneratedValue
 	private Integer id;
@@ -41,11 +41,11 @@ public class Usuario implements UserDetails{
 	@Cascade(value = CascadeType.ALL)
 	private List<Papel> papeis;
 	*/
-	public Usuario() {
+	public User() {
 		
 	}
 	
-	public Usuario(String email,String password) {
+	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}

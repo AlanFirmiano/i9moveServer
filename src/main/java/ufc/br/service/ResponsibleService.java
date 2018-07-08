@@ -3,44 +3,42 @@ package ufc.br.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import ufc.br.model.Papel;
 import ufc.br.model.Responsible;
 import ufc.br.repository.ResponsibleRepository;
 
 @Service
 public class ResponsibleService {
+
 	@Autowired
-	ResponsibleRepository repository;
+	ResponsibleRepository responsibleRepository;
 
-	public ResponseEntity<String> save(Responsible responsible){
+	public String save(Responsible responsible){
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		responsible.setPassword(encoder.encode(responsible.getPassword()));
-		repository.save(responsible);
-		return new ResponseEntity<String>("Fisioterapeuta cadastrado com sucesso!", HttpStatus.OK);		
+		responsibleRepository.save(responsible);
+		return "Fisioterapeuta cadastrado com sucesso!";
 	}
 
-	public ResponseEntity<String> delete(int id){
-		repository.deleteById(id);
-		return new ResponseEntity<String>("Fisioterapeuta removido!", HttpStatus.OK);
+	public String delete(int id){
+		responsibleRepository.deleteById(id);
+		return "Fisioterapeuta removido!";
 	}
 
-	public ResponseEntity<String> update(Responsible responsible){
+	public String update(Responsible responsible){
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		responsible.setPassword(encoder.encode(responsible.getPassword()));
-		repository.save(responsible);
-		return new ResponseEntity<String>("Fisioterapeuta atualizado!", HttpStatus.OK);
+		responsibleRepository.save(responsible);
+		return "Fisioterapeuta atualizado!";
 	}
 
-	public ResponseEntity<Responsible> get(int id){
-		return new ResponseEntity<Responsible>(this.repository.findById(id), HttpStatus.OK);
+	public Responsible get(int id){
+		return this.responsibleRepository.findById(id);
 	}
 
-	public ResponseEntity<List<Responsible>> get(){
-		return new ResponseEntity<List<Responsible>>(this.repository.findAll(), HttpStatus.OK);
+	public List<Responsible> get(){
+		return this.responsibleRepository.findAll();
 	}
 }

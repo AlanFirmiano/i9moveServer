@@ -1,8 +1,6 @@
 package ufc.br.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ufc.br.model.Midia;
 import ufc.br.repository.MidiaRepository;
@@ -13,28 +11,28 @@ import java.util.List;
 public class MidiaService {
 
     @Autowired
-    MidiaRepository repository;
+    MidiaRepository midiaRepository;
 
-    public ResponseEntity<String> save(Midia midia){
-        repository.save(midia);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String save(Midia midia){
+        midiaRepository.save(midia);
+        return "sucesso";
     }
 
-    public ResponseEntity<String> delete(Integer id){
-        repository.deleteById(id);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String delete(Integer id){
+        midiaRepository.deleteById(id);
+        return "sucesso";
     }
 
-    public ResponseEntity<String> update(Midia midia){
-        repository.save(midia);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String update(Midia midia){
+        midiaRepository.save(midia);
+        return "sucesso";
     }
 
-    public ResponseEntity<Midia> get(int id){
-        return new ResponseEntity<Midia>(this.repository.findById(id), HttpStatus.OK);
+    public Midia get(int id){
+        return this.midiaRepository.findById(id);
     }
 
-    public ResponseEntity<List<Midia>> get(){
-        return new ResponseEntity<List<Midia>>(this.repository.findAll(), HttpStatus.OK);
+    public List<Midia> get(){
+        return this.midiaRepository.findAll();
     }
 }

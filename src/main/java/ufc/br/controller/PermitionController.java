@@ -17,50 +17,50 @@ import java.util.List;
 public class PermitionController {
 
     @Autowired
-    private PermitionService service;
-
+    private PermitionService permitionService;
     @Autowired
-    private PatientService pservice;
+    private PatientService patientService;
     
     @PostMapping
     public ResponseEntity<String> save(@RequestBody Permition permition){
-        return service.save(permition);
+        return ResponseEntity.ok(permitionService.save(permition));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id){
-        return service.delete(id);
+        return ResponseEntity.ok(permitionService.delete(id));
     }
 
     @PutMapping
     public ResponseEntity<String> update(@RequestBody Permition permition){
-        return service.update(permition);
+        return ResponseEntity.ok(permitionService.update(permition));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Permition> get(@PathVariable Integer id){
-        return service.get(id);
+        return ResponseEntity.ok(permitionService.get(id));
     }
 
     @GetMapping("/all/{id}")
     public ResponseEntity<List<Permition>> getAll(@PathVariable Integer id){
-        Patient aux = pservice.get(id).getBody();
-    	return service.get(aux);
+        Patient aux = patientService.get(id);
+    	return ResponseEntity.ok(permitionService.get(aux));
     }
     
     @GetMapping("/unlocked/{id}")
     public ResponseEntity<List<Permition>> getUnlocked(@PathVariable Integer id){
-        Patient aux = pservice.get(id).getBody();
-    	return service.getUnlocked(true, aux);
+        Patient aux = patientService.get(id);
+    	return ResponseEntity.ok(permitionService.getUnlocked(true, aux));
     }
 
     @GetMapping("/locked/{id}")
     public ResponseEntity<List<Permition>> getLocked(@PathVariable Integer id){
-        Patient aux = pservice.get(id).getBody();
-    	return service.getUnlocked(false, aux);
+        Patient aux = patientService.get(id);
+    	return ResponseEntity.ok(permitionService.getUnlocked(false, aux));
     }
+
     @GetMapping
     public ResponseEntity<List<Permition>> get(){
-        return service.get();
+        return ResponseEntity.ok(permitionService.get());
     }
 }

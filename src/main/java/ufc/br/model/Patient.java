@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @PrimaryKeyJoinColumn(name="id")
-public class Patient extends Usuario{
+public class Patient extends User {
 	
 	@NotNull
 	private String registration;

@@ -1,12 +1,9 @@
 package ufc.br.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ufc.br.model.Patient;
 import ufc.br.model.Permition;
-import ufc.br.repository.GraspRepository;
 import ufc.br.repository.PatientRepository;
 import ufc.br.repository.PermitionRepository;
 
@@ -14,49 +11,49 @@ import java.util.List;
 
 @Service
 public class PermitionService {
+
     @Autowired
-    PermitionRepository repository;
-    
+    PermitionRepository permitionRepository;
     @Autowired
     PatientRepository patientRepository;
     
-    public ResponseEntity<String> save(Permition permition){
-    	if(repository.findByPatientAndGrasp(permition.getPatient(), permition.getGrasp())==null) {
+    public String save(Permition permition){
+    	if(permitionRepository.findByPatientAndGrasp(permition.getPatient(), permition.getGrasp())==null) {
     		if(permition.getPatient().getLevel()<permition.getGrasp().getLevel().getLevel()) {
     			Patient patient = patientRepository.findById(permition.getPatient().getId()).get();
     			patient.setLevel(permition.getGrasp().getLevel().getLevel());
     			patientRepository.save(patient);
     			System.err.println("atualizou level");
     		}
-    		repository.save(permition);
-        	return new ResponseEntity<String>(permition.getGrasp().getExercise().getTitle()+" permitido!", HttpStatus.OK);
+    		permitionRepository.save(permition);
+        	return permition.getGrasp().getExercise().getTitle()+" permitido!";
     	}else {
-    		return new ResponseEntity<String>(permition.getGrasp().getExercise().getTitle()+" já está permitido", HttpStatus.OK);
+    		return permition.getGrasp().getExercise().getTitle()+" já está permitido";
     	}
     }
 
-    public ResponseEntity<String> delete(Integer id){
-        repository.deleteById(id);
-        return new ResponseEntity<String>("Removido", HttpStatus.OK);
+    public String delete(Integer id){
+        permitionRepository.deleteById(id);
+        return "Removido";
     }
 
-    public ResponseEntity<String> update(Permition permition){
-        repository.save(permition);
-        return new ResponseEntity<String>(permition.getGrasp().getExercise().getTitle()+" foi atualizado!", HttpStatus.OK);
+    public String update(Permition permition){
+        permitionRepository.save(permition);
+        return permition.getGrasp().getExercise().getTitle()+" foi atualizado!";
     }
     
-    public ResponseEntity<Permition> get(int id){
-        return new ResponseEntity<Permition>(this.repository.findById(id), HttpStatus.OK);
+    public Permition get(int id){
+        return this.permitionRepository.findById(id);
     }
 
-    public ResponseEntity<List<Permition>> get(Patient patient){
-        return new ResponseEntity<List<Permition>>(this.repository.findByPatient(patient), HttpStatus.OK);
+    public List<Permition> get(Patient patient){
+        return this.permitionRepository.findByPatient(patient);
     }
-    public ResponseEntity<List<Permition>> getUnlocked(boolean locked, Patient patient){
-        return new ResponseEntity<List<Permition>>(this.repository.findByLockedAndPatient(locked, patient), HttpStatus.OK);
+    public List<Permition> getUnlocked(boolean locked, Patient patient){
+        return this.permitionRepository.findByLockedAndPatient(locked, patient);
     }
     
-    public ResponseEntity<List<Permition>> get(){
-        return new ResponseEntity<List<Permition>>(this.repository.findAll(), HttpStatus.OK);
+    public List<Permition> get(){
+        return this.permitionRepository.findAll();
     }
 }

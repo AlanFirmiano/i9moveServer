@@ -12,32 +12,33 @@ import java.util.List;
 @RequestMapping("/grasp")
 @CrossOrigin(origins = "*")
 public class GraspController {
+
     @Autowired
-    private GraspService service;
+    private GraspService graspService;
 
     @PostMapping
     public ResponseEntity<String> save(@RequestBody Grasp grasp){
-        return service.save(grasp);
+        return ResponseEntity.ok(graspService.save(grasp));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id){
-        return service.delete(id);
+        return ResponseEntity.ok(graspService.delete(id));
     }
 
     @PutMapping
     public ResponseEntity<String> update(@RequestBody Grasp grasp){
-        return service.update(grasp);
+        return ResponseEntity.ok(graspService.update(grasp));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Grasp> get(@PathVariable Integer id){
-        return service.get(id);
+        return ResponseEntity.ok(graspService.get(id));
     }
 
     @GetMapping
     public ResponseEntity<List<Grasp>> get(){
-        return service.get();
+        return ResponseEntity.ok(graspService.get());
     }
 
 }

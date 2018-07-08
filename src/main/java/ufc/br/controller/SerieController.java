@@ -14,30 +14,28 @@ import java.util.List;
 public class SerieController {
 
     @Autowired
-    private SerieService service;
+    private SerieService serieService;
 
     @PostMapping
     public ResponseEntity<String> save(@RequestBody Serie serie){
-        return service.save(serie);
+        return ResponseEntity.ok(serieService.save(serie));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Integer id){
-        return service.delete(id);
-    }
+    public ResponseEntity<String> delete(@PathVariable Integer id){return ResponseEntity.ok(serieService.delete(id)); }
 
     @PutMapping
     public ResponseEntity<String> update(@RequestBody Serie serie){
-        return service.update(serie);
+        return ResponseEntity.ok(serieService.update(serie));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Serie> get(@PathVariable Integer id){
-        return service.get(id);
+        return ResponseEntity.ok(serieService.get(id));
     }
 
     @GetMapping
     public ResponseEntity<List<Serie>> get(){
-        return service.get();
+        return ResponseEntity.ok(serieService.get());
     }
 }

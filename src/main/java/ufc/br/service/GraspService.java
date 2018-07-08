@@ -1,70 +1,68 @@
 package ufc.br.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ufc.br.model.Exercise;
 import ufc.br.model.Grasp;
 import ufc.br.model.Level;
-import ufc.br.model.Recommendation;
 import ufc.br.repository.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GraspService {
+
     @Autowired
-    GraspRepository repository;
+    GraspRepository graspRepository;
     @Autowired
-    ExerciseRepository exeRepo;
+    ExerciseRepository exerciseRepository;
     @Autowired
-    ExerciseService exeService;
+    ExerciseService exerciseService;
     @Autowired
-    LevelRepository levRepo;
+    LevelRepository levelRepository;
     @Autowired
-    RecommendationRepository recRepo;
+    RecommendationRepository recommendationRepository;
     @Autowired
-    SerieRepository serRepo;
-    public ResponseEntity<String> save(Grasp grasp){
-        if(null == exeRepo.findByTitle(grasp.getExercise().getTitle())) {
-            exeService.save(grasp.getExercise());
+    SerieRepository serieRepository;
+
+    public String save(Grasp grasp){
+        if(null == exerciseRepository.findByTitle(grasp.getExercise().getTitle())) {
+            exerciseService.save(grasp.getExercise());
         }
-        Exercise x = exeRepo.findByTitle(grasp.getExercise().getTitle());
+        Exercise x = exerciseRepository.findByTitle(grasp.getExercise().getTitle());
         grasp.setExercise(x);
-        Level aux = levRepo.findByLevel(grasp.getLevel().getLevel());
+        Level aux = levelRepository.findByLevel(grasp.getLevel().getLevel());
         if(aux!=null){
             grasp.setLevel(aux);
         }else {
-            grasp.setLevel(levRepo.save(grasp.getLevel()));
+            grasp.setLevel(levelRepository.save(grasp.getLevel()));
         }
-        grasp.getRecommendation().setSerie(serRepo.saveAll(grasp.getRecommendation().getSerie()));
-        grasp.setRecommendation(recRepo.save(grasp.getRecommendation()));
+        grasp.getRecommendation().setSerie(serieRepository.saveAll(grasp.getRecommendation().getSerie()));
+        grasp.setRecommendation(recommendationRepository.save(grasp.getRecommendation()));
 
-        repository.save(grasp);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+        graspRepository.save(grasp);
+        return "sucesso";
     }
 
-    public ResponseEntity<String> delete(Integer id){
-        repository.deleteById(id);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String delete(Integer id){
+        graspRepository.deleteById(id);
+        return "sucesso";
     }
 
-    public ResponseEntity<String> update(Grasp grasp){
-        repository.save(grasp);
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+    public String update(Grasp grasp){
+        graspRepository.save(grasp);
+        return "sucesso";
     }
 
-    public ResponseEntity<Grasp> get(int id){
-        return new ResponseEntity<Grasp>(this.repository.findById(id), HttpStatus.OK);
+    public Grasp get(int id){
+        return this.graspRepository.findById(id);
     }
 
-    public ResponseEntity<List<Grasp>> get(){
-        return new ResponseEntity<List<Grasp>>(this.repository.findAll(), HttpStatus.OK);
+    public List<Grasp> get(){
+        return this.graspRepository.findAll();
     }
 
-    public ResponseEntity<List<Grasp>> getByExercise(Exercise exercise){
-        return new ResponseEntity<List<Grasp>>(this.repository.findByExercise(exercise), HttpStatus.OK);
+    public List<Grasp> getByExercise(Exercise exercise){
+        return this.graspRepository.findByExercise(exercise);
     }
 }

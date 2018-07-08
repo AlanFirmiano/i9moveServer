@@ -55,7 +55,7 @@ public class ExerciseService {
 
             Exercise aux = this.get(id);
             Midia midia = new Midia();
-            midia.setPathVideo("http://localhost:8080/video/" + file.getOriginalFilename());
+            midia.setPathVideo("http://i9move.quixada.ufc.br/api/video/" + file.getOriginalFilename());
             midia.setPathTitle(convertFile.getName());
             if (aux.getMidia() != null) {
                 aux.getMidia().setPathVideo(midia.getPathVideo());

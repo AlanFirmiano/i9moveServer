@@ -76,19 +76,6 @@ public class ExerciseController {
 			return new ResponseEntity<>("Erro", HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
-//
-//	@PostMapping(value = "/upload", headers = "content-type=multipart/form-data")
-//	public ResponseEntity<Object> uploadFile(@RequestHeader(value = "Content-Type") String userAgent,
-//			@RequestParam("file") MultipartFile file) throws IOException {
-//		System.err.println(userAgent);
-//		File convertFile = new File(
-//				this.getClass().getClassLoader().getResource("public/video/").getPath() + file.getOriginalFilename());
-//		convertFile.createNewFile();
-//		FileOutputStream fout = new FileOutputStream(convertFile);
-//		fout.write(file.getBytes());
-//		fout.close();
-//		return new ResponseEntity<>("Video enviado com sucesso", HttpStatus.OK);
-//	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> delete(@PathVariable Integer id) {

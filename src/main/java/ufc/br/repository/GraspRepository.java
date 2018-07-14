@@ -15,6 +15,6 @@ public interface GraspRepository extends JpaRepository<Grasp,Integer> {
 
     List<Grasp> findByExercise(Exercise exercise);
 
-    @Query("from Grasp order by exercise.title")
+    @Query("from Grasp order by sequence ")
     List<Grasp> findAll();
 }

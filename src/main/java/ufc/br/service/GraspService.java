@@ -7,6 +7,7 @@ import ufc.br.model.Grasp;
 import ufc.br.model.Level;
 import ufc.br.repository.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -40,6 +41,8 @@ public class GraspService {
         grasp.getRecommendation().setSerie(serieRepository.saveAll(grasp.getRecommendation().getSerie()));
         grasp.setRecommendation(recommendationRepository.save(grasp.getRecommendation()));
 
+        grasp.setSequence((int) new Date().getTime());
+
         graspRepository.save(grasp);
         return "sucesso";
     }
@@ -63,7 +66,7 @@ public class GraspService {
     }
 
     public List<Grasp> getByLevel(int level){
-        return this.graspRepository.findByLevel_Level(level);
+        return this.graspRepository.findByLevel_LevelOrderBySequence(level);
     }
 
     public List<Grasp> getByExercise(Exercise exercise){

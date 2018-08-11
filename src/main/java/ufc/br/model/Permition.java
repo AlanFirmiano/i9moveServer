@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 public class Permition {
+
     @Id
     @GeneratedValue
     private int id;

@@ -5,6 +5,7 @@ import java.util.List;
 
 @Entity
 public class Recommendation {
+
     @Id
     @GeneratedValue
     private int id;
@@ -30,5 +31,4 @@ public class Recommendation {
     public void setSerie(List<Serie> serie) {
         this.serie = serie;
     }
-
 }

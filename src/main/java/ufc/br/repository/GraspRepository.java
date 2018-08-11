@@ -17,4 +17,6 @@ public interface GraspRepository extends JpaRepository<Grasp,Integer> {
 
     @Query("from Grasp order by sequence ")
     List<Grasp> findAll();
+
+    List<Grasp> findByLevel_Level(int level);
 }

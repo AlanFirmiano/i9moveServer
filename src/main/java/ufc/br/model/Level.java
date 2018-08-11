@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import java.util.List;
 @Entity
 public class Level {
+
     @Id
     @GeneratedValue
     private int id;

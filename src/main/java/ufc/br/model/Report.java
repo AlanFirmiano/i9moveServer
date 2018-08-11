@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 public class Report {
+
 	@Id
 	@GeneratedValue
 	private Integer id;
@@ -82,5 +83,4 @@ public class Report {
 	public int getRepetitions() { return repetitions; }
 
 	public void setRepetitions(int repetitions) { this.repetitions = repetitions; }
-
 }

@@ -42,6 +42,5 @@ public class Papel implements GrantedAuthority {
 	public String getAuthority() {
 		return descricao;
 	}
-	
-	
+
 }

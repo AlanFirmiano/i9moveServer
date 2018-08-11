@@ -27,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails{
+
 	@Id
 	@GeneratedValue
 	private Integer id;
@@ -34,13 +35,7 @@ public class User implements UserDetails{
 	private String email;
 	@NotNull
 	private String password;
-	
-	/*
-	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="usuario_id")
-	@Cascade(value = CascadeType.ALL)
-	private List<Papel> papeis;
-	*/
+
 	public User() {
 		
 	}
@@ -52,37 +47,31 @@ public class User implements UserDetails{
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return password;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return email;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -108,8 +97,6 @@ public class User implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
 		return new ArrayList<>();
 	}
-	
 }

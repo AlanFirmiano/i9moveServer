@@ -40,5 +40,4 @@ public class RecommendationController {
     public ResponseEntity<List<Recommendation>> get(){
         return ResponseEntity.ok(recommendationService.get());
     }
-
 }

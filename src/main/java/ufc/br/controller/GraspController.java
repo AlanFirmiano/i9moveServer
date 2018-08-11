@@ -36,6 +36,11 @@ public class GraspController {
         return ResponseEntity.ok(graspService.get(id));
     }
 
+    @GetMapping("/level/{nivel}")
+    public ResponseEntity<List<Grasp>> getByLevel(@PathVariable Integer nivel){
+        return ResponseEntity.ok(graspService.getByLevel(nivel));
+    }
+
     @GetMapping
     public ResponseEntity<List<Grasp>> get(){
         return ResponseEntity.ok(graspService.get());

@@ -1,13 +1,11 @@
 package ufc.br.model;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Grasp {
+
     @Id
     @GeneratedValue
     private int id;
@@ -18,7 +16,7 @@ public class Grasp {
     @ManyToOne(cascade={CascadeType.ALL})
     private Recommendation recommendation;
     private String tip;
-    private Date update;
+    private Date latestUpdate;
     private int sequence;
 
     public Grasp() {
@@ -72,16 +70,15 @@ public class Grasp {
         this.tip = tip;
     }
 
-    public Date getUpdate() {
-        return update;
+    public Date getLatestUpdate() {
+        return latestUpdate;
     }
 
-    public void setUpdate(Date update) {
-        this.update = update;
+    public void setLatestUpdate(Date latestUpdate) {
+        this.latestUpdate = latestUpdate;
     }
 
     public int getSequence() { return sequence; }
 
     public void setSequence(int sequence) { this.sequence = sequence; }
-
 }

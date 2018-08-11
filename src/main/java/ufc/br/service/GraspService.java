@@ -62,6 +62,10 @@ public class GraspService {
         return this.graspRepository.findAll();
     }
 
+    public List<Grasp> getByLevel(int level){
+        return this.graspRepository.findByLevel_Level(level);
+    }
+
     public List<Grasp> getByExercise(Exercise exercise){
         return this.graspRepository.findByExercise(exercise);
     }

@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 public class Exercise {
+
 	@Id
 	@GeneratedValue
 	private int id;
@@ -66,5 +67,4 @@ public class Exercise {
 	public void setObjects(List<Object> objects) {
 		this.objects = objects;
 	}
-
 }

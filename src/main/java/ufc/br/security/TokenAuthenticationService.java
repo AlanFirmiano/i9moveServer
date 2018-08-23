@@ -13,7 +13,7 @@ import java.util.Date;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 class TokenAuthenticationService {
-    static final long EXPIRATIONTIME = 864_000_000; // 10 days
+    static final long EXPIRATIONTIME = 864_000_000*30; // 30x 10 days
     static final String SECRET = "!@UFC#API#I9MOVE!@";
     static final String TOKEN_PREFIX = "Bearer ";
     static final String HEADER_STRING = "Authorization";

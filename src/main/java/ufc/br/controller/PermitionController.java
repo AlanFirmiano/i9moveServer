@@ -61,6 +61,6 @@ public class PermitionController {
 
     @GetMapping
     public ResponseEntity<List<Permition>> get(){
-        return ResponseEntity.ok(permitionService.get());
+        return ResponseEntity.ok(permitionService.getUnlockedX(true));
     }
 }

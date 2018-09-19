@@ -2,34 +2,20 @@ package ufc.br.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Table(name="usuario")
 public class User implements UserDetails{
 
 	@Id
 	@GeneratedValue
+	@Column(name="id")
 	private Integer id;
 	@NotNull
 	private String email;

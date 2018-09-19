@@ -7,7 +7,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ufc.br.model.Patient;
 import ufc.br.model.Permition;
-import ufc.br.model.User;
 import ufc.br.repository.PatientRepository;
 import ufc.br.repository.PermitionRepository;
 

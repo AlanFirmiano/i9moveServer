@@ -16,7 +16,7 @@ public interface PermitionRepository extends JpaRepository<Permition, Integer>{
     
     Permition findByPatientAndGrasp(Patient patient, Grasp grasp);
     
-    List<Permition> findByLockedAndPatient(boolean locked,Patient patient);
+    List<Permition> findByLockedAndPatientRegistration(boolean locked,String registration);
     
     Permition findById(int id);
     

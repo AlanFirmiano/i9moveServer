@@ -76,6 +76,8 @@ public class PatientService {
 		return this.patientRepository.findById(id);
 	}
 
+	public Patient getByEmail(String email) { return this.patientRepository.findByRegistration(email); }
+
 	public List<Patient> get(){
 		return this.patientRepository.findAll();
 	}

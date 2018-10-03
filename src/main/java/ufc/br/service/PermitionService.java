@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ufc.br.model.Patient;
 import ufc.br.model.Permition;
+import ufc.br.model.User;
 import ufc.br.repository.PatientRepository;
 import ufc.br.repository.PermitionRepository;
 
@@ -54,18 +55,22 @@ public class PermitionService {
         return this.permitionRepository.findByPatient(patient);
     }
 
-    public List<Permition> getUnlockedX(boolean locked) {
+    public List<Permition> getUnlockedX() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
-            Patient patient = new PatientService().get(new UserService().getByEmail(currentUserName).getId());
-            System.err.println("Usuario : "+patient.getName());
-            return this.permitionRepository.findByLockedAndPatient(locked, patient);
-        }
-        return new ArrayList<>();
+            if (!(authentication instanceof AnonymousAuthenticationToken)) {
+                String currentUserName = authentication.getName();
+                List<Permition> permitions = this.permitionRepository.findByLockedAndPatientRegistration(true, currentUserName);
+                if(permitions.size()>0){
+                    return permitions;
+                }else{
+                    return new ArrayList<>();
+                }
+            }
+            return new ArrayList<>();
+
     }
     public List<Permition> getUnlocked(boolean locked, Patient patient){
-        return this.permitionRepository.findByLockedAndPatient(locked, patient);
+        return this.permitionRepository.findByLockedAndPatientRegistration(locked, patient.getRegistration());
 
     }
     
